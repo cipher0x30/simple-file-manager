@@ -307,10 +307,17 @@ $(function(){
 	$('#table').tablesorter();
 
 	$('#table').on('click','.delete',function(data) {
-		$.post("",{'do':'delete',file:$(this).attr('data-file'),xsrf:XSRF},function(response){
-			list();
-		},'json');
-		return false;
+		var toDelPath = $(this).attr('data-file');
+		var toDel = toDelPath.replace(/.*\//g,'');
+		if (confirm('Are you sure you want to delete "'+toDel+'"?')) {
+			$.post("",{'do':'delete',file:$(this).attr('data-file'),xsrf:XSRF},function(response){
+				list();
+			},'json');
+			return false;
+		}
+		else {
+			return false;
+		}
 	});
 
 	$('#mkdir').submit(function(e) {
